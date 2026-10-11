@@ -504,7 +504,7 @@ $StudioLangMeta = @{
   CHS = @{ ProductCode = "C6622C7F-E024-4FBF-B14D-DBAFDAC3C34B"; UpgradeCode = "AF16E7D3-800C-4BE7-BA12-B9C62FF78F51"; LangId = 2052 }
   FRA = @{ ProductCode = "DE91BFF8-E532-4612-8899-F965FC87885C"; UpgradeCode = "140D3C25-5463-4688-8A52-FEA8E9FA4940"; LangId = 1036 }
   # CHT originally shipped sharing CHS UpgradeCode (clone leftover). Own code going
-  # forward; LegacyUpgradeCode + ProductLanguage 1028 still MajorUpgrades those builds.
+  # forward; LegacyUpgradeCode + ProductLanguage 1028 still upgrades those builds.
   CHT = @{
     ProductCode = "82CB8DF7-A50B-446D-82C6-362F009A6070"
     UpgradeCode = "FF358620-E4B8-4B32-BC31-FAF1D1879F0D"

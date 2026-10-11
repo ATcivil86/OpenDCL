@@ -73,9 +73,11 @@ Do **not** add `.vcxproj` files or `OpenDCL.sln` entries.
      one with another locale (CHS/CHT did that as a clone leftover; CHT now has
      its own, plus `LegacyUpgradeCode` so already-shipped CHT still upgrades).
    - If a language already shipped under the wrong UpgradeCode, keep that GUID
-     as `$StudioLangMeta['LANG'].LegacyUpgradeCode`. Studio MSI `MajorUpgrade`
-     is language-filtered; the legacy row is too, so it cannot remove a sibling
-     locale that still owns that GUID.
+     as `$StudioLangMeta['LANG'].LegacyUpgradeCode`. Studio `UpgradeVersion`
+     rows (current UpgradeCode and optional LegacyUpgradeCode) set
+     `Language` to ProductLanguage so FindRelatedProducts cannot remove a
+     sibling locale that still owns that GUID. Do not put `Language` on
+     `MajorUpgrade` — WiX v3 rejects it (CNDL0004).
 6. **ProductCode**: generate a new GUID (historical Studio packages used fixed
    ProductCodes in `$StudioLangMeta`; WiX Studio `Product Id="*"` still auto-
    generates build ProductCodes, but meta table keeps the historical codes for

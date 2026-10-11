@@ -185,7 +185,9 @@ Checked-in exact-size bitmaps under `wix\ui\` (package script copies them; no st
 - **UpgradeCodes** preserved from the old Studio language packages / Runtime MSI.
   Each Studio language has its own UpgradeCode. CHT originally shipped sharing
   CHS; it now has `FF358620-…` and a language-filtered `LegacyUpgradeCode` so
-  those older CHT MSIs still upgrade without touching CHS.
+  those older CHT MSIs still upgrade without touching CHS. Language filters live
+  on `UpgradeVersion/@Language` (WiX v3 `MajorUpgrade` has no `Language`
+  attribute).
 - Component GUIDs are **stable** (MD5 of logical path).
 - Studio shortcuts are **advertised** and nested on their target files
   (`Advertise="yes"` on the same component as the file):
