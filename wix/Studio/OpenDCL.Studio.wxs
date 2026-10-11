@@ -30,11 +30,23 @@
              Comments="$(var.ArpComments)"
              Manufacturer="OpenDCL Consortium" />
 
-    <!-- Language-filter so a sibling locale that once shared UpgradeCode (CHS/CHT)
-         is not treated as the same product. -->
-    <MajorUpgrade DowngradeErrorMessage="A newer version of OpenDCL Studio is already installed."
-                  Schedule="afterInstallInitialize"
-                  Language="$(var.ProductLanguage)" />
+    <!-- Language-filter FindRelatedProducts so a sibling locale that once
+         shared UpgradeCode (CHS/CHT) is not treated as the same product.
+         WiX v3 MajorUpgrade has no Language attribute (CNDL0004); these
+         UpgradeVersion rows match Schedule="afterInstallInitialize". -->
+    <Upgrade Id="$(var.UpgradeCode)">
+      <UpgradeVersion Property="WIX_UPGRADE_DETECTED"
+                      Minimum="0.0.0"
+                      IncludeMinimum="yes"
+                      Maximum="$(var.ProductVersion)"
+                      IncludeMaximum="no"
+                      Language="$(var.ProductLanguage)" />
+      <UpgradeVersion Property="WIX_DOWNGRADE_DETECTED"
+                      Minimum="$(var.ProductVersion)"
+                      IncludeMinimum="yes"
+                      OnlyDetect="yes"
+                      Language="$(var.ProductLanguage)" />
+    </Upgrade>
     <?ifdef LegacyUpgradeCode ?>
     <Upgrade Id="$(var.LegacyUpgradeCode)">
       <UpgradeVersion Property="LEGACY_LANG_UPGRADE"
@@ -45,6 +57,12 @@
                       Language="$(var.ProductLanguage)" />
     </Upgrade>
     <?endif?>
+    <Condition Message="A newer version of OpenDCL Studio is already installed.">
+      NOT WIX_DOWNGRADE_DETECTED
+    </Condition>
+    <InstallExecuteSequence>
+      <RemoveExistingProducts After="InstallInitialize" />
+    </InstallExecuteSequence>
     <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
 
     <Property Id="ARPHELPLINK" Value="https://www.opendcl.com" />
