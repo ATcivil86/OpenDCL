@@ -70,6 +70,10 @@ static void DrawTransparentBitmap( CBitmap* pBitmap, CDC* pDC, int x, int y, int
 	// Select the mask bitmap into the appropriate dc
 	CBitmap* pOldBitmapTrans = dcTrans.SelectObject(&bitmapTrans);
 
+	// Default BLACKONWHITE ANDs pixels when shrinking (darkens color images)
+	dcTrans.SetStretchBltMode(COLORONCOLOR);
+	const int nOldStretchMode = pDC->SetStretchBltMode(COLORONCOLOR);
+
 	// Build mask based on transparent colour
 	dcImage.SetBkColor(crTransparent);
 	if( bStretch )
@@ -94,6 +98,7 @@ static void DrawTransparentBitmap( CBitmap* pBitmap, CDC* pDC, int x, int y, int
 
 	// Restore settings
 	pDC->SetBkColor( clrOldBk );
+	pDC->SetStretchBltMode( nOldStretchMode );
 	dcImage.SelectObject(pOldBitmapImage);
 	dcTrans.SelectObject(pOldBitmapTrans);
 }
@@ -122,6 +127,7 @@ static void DrawDisabledTransparentBitmap( CBitmap* pBitmap, CDC* pDC, int x, in
 
 	// Select the mask bitmap into the appropriate dc
 	CBitmap* pOldBitmapTrans = dcTrans.SelectObject(&bitmapTrans);
+	dcTrans.SetStretchBltMode(COLORONCOLOR);
 
 	// Build mask based on transparent colour
 	dcImage.SetBkColor(crTransparent);
@@ -133,6 +139,7 @@ static void DrawDisabledTransparentBitmap( CBitmap* pBitmap, CDC* pDC, int x, in
 	// Create monochrome DC
 	CDC dcBW;
 	dcBW.CreateCompatibleDC(pDC);
+	dcBW.SetStretchBltMode(COLORONCOLOR);
 
 	// Create a monochrome DIB section with a black and white palette
 	struct
