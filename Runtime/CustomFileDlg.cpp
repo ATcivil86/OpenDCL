@@ -432,8 +432,8 @@ void CCustomFileDlg::OnWindowPosChanged(WINDOWPOS* lpwndpos)
 		CRect rcDlg = GetEffectiveClientRect();
 		int nNewWidth = rcDlg.Width();
 		int nNewHeight = rcDlg.Height();
-		mpFileDlgCtrl->SetLongProperty( Prop::Width, nNewWidth - mnRightBorder );
-		mpFileDlgCtrl->SetLongProperty( Prop::Height, nNewHeight - mnBottomBorder );
+		mpFileDlgCtrl->SetLongProperty( Prop::Width, ToDIP( nNewWidth - mnRightBorder ) );
+		mpFileDlgCtrl->SetLongProperty( Prop::Height, ToDIP( nNewHeight - mnBottomBorder ) );
 	}
 }
 
